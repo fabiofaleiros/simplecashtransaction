@@ -2,6 +2,8 @@ package com.ffs.simplecashtransaction.domain.user;
 
 import java.math.BigDecimal;
 
+import com.ffs.simplecashtransaction.dtos.UserDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,5 +47,15 @@ public class User {
 	
 	@Enumerated(EnumType.STRING)
 	private UserType userType;
+	
+	public User(UserDTO from) {
+		this.firstName = from.firstName();
+		this.lastName = from.lastName();
+		this.document = from.document();
+		this.email = from.email();
+		this.password = from.password();
+		this.balance = from.balance();
+		this.userType = from.userType();
+	}
 
 }
