@@ -24,17 +24,22 @@ Video Source [link](https://youtu.be/QXunBiLq2SM?si=3dpJtAyRMjRlPC-5).
 
 ## Initial Considerations
 
-- New mocky created to replace the original [one] (https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6):
-	** URL: [link] (https://run.mocky.io/v3/da51a6c7-9ad8-475d-8c3b-7c406416a5f8)
-	** Secret delete: [link] (https://designer.mocky.io/manage/delete/da51a6c7-9ad8-475d-8c3b-7c406416a5f8/H6I6tOKVG71HCzHJvtvtCNWlx6LfNth74UGN)
+New mocky created to replace the original [one](https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6):
+- URL: [link](https://run.mocky.io/v3/da51a6c7-9ad8-475d-8c3b-7c406416a5f8)
+- Secret delete: [link](https://designer.mocky.io/manage/delete/da51a6c7-9ad8-475d-8c3b-7c406416a5f8/H6I6tOKVG71HCzHJvtvtCNWlx6LfNth74UGN)
 
-- New wiremock created to replace the original [one] (http://o4d9z.mocklab.io/notify):
-	** URL: [link] (https://v4goj.wiremockapi.cloud/notify)
+New wiremock created to replace the original [one] (http://o4d9z.mocklab.io/notify):
+- URL: [link](https://v4goj.wiremockapi.cloud/notify)
  
 ## How to load
 
 ### Locally
-- Clone git [repository] (https://github.com/fabiofaleiros/simplecashtransaction)
+- Clone git [repository](https://github.com/fabiofaleiros/simplecashtransaction)
+- Initialize Postgres DB via docker:
+```
+cd db-docker
+docker compose up
+```
 - Build project:
 ```
 ./mvnw clean package
@@ -45,11 +50,6 @@ java -jar simplecashtransaction/target/simplecashtransaction-0.0.1-SNAPSHOT.jar
 ```
 
 Link API [localhost:8080](http://localhost:8080).
-
-URL Console H2:
-```
-http://localhost:8080/h2-console
-```
 
 ## API Endpoints
 

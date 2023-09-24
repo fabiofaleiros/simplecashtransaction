@@ -1,0 +1,1 @@
+CREATE DATABASE simple_cash_transaction;
