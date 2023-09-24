@@ -2,7 +2,7 @@ package com.ffs.simplecashtransaction.domain.user;
 
 import java.math.BigDecimal;
 
-import com.ffs.simplecashtransaction.dtos.UserDTO;
+import com.ffs.simplecashtransaction.dtos.UserRequestDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,7 +48,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserType userType;
 	
-	public User(UserDTO from) {
+	public User(UserRequestDTO from) {
 		this.firstName = from.firstName();
 		this.lastName = from.lastName();
 		this.document = from.document();

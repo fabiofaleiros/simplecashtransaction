@@ -13,11 +13,14 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ffs.simplecashtransaction.domain.transaction.Transaction;
 import com.ffs.simplecashtransaction.domain.user.User;
-import com.ffs.simplecashtransaction.dtos.TransactionDTO;
+import com.ffs.simplecashtransaction.dtos.TransactionRequestDTO;
+import com.ffs.simplecashtransaction.exception.BusinessRuleViolationException;
 import com.ffs.simplecashtransaction.repositories.TransactionRepository;
 
 @Service
 public class TransactionService {
+	
+	private final static String AUTORIZADO = "Autorizado";
 	
 	@Autowired
 	private UserService userService;
@@ -31,7 +34,7 @@ public class TransactionService {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	public Transaction createTransaction(TransactionDTO transactionDTO) throws Exception {
+	public Transaction createTransaction(TransactionRequestDTO transactionDTO) throws Exception {
 		
 		User sender = userService.findUserById(transactionDTO.senderID());
 		User receiver = userService.findUserById(transactionDTO.receiverID());
@@ -39,7 +42,7 @@ public class TransactionService {
 		userService.validateTransaction(sender, transactionDTO.value());
 		
 		if(!authorizeTransaction(sender, transactionDTO.value())) {
-			throw new Exception("Not authorized transaction");
+			throw new BusinessRuleViolationException("Not authorized transaction");
 		}
 		
 		Transaction transaction = new Transaction();
@@ -64,15 +67,11 @@ public class TransactionService {
 	
 	public boolean authorizeTransaction(User sender, BigDecimal value) {
 		
-//		ResponseEntity<Map> authResp = restTemplate.getForEntity("https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6", Map.class);
-		/**
-		 * Tive que criar um novo mocky para retornar o que era suposto.
-		 * */
 		ResponseEntity<Map> authResp = restTemplate.getForEntity("https://run.mocky.io/v3/da51a6c7-9ad8-475d-8c3b-7c406416a5f8", Map.class);
 		
 		if(HttpStatus.OK == authResp.getStatusCode()) {
 			String message = (String) authResp.getBody().get("message");
-			return "Autorizado".equalsIgnoreCase(message);
+			return AUTORIZADO.equalsIgnoreCase(message);
 		}
 		
 		return false;

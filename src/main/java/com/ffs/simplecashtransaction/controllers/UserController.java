@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ffs.simplecashtransaction.domain.user.User;
-import com.ffs.simplecashtransaction.dtos.UserDTO;
+import com.ffs.simplecashtransaction.dtos.UserRequestDTO;
+import com.ffs.simplecashtransaction.dtos.UserResponseDTO;
 import com.ffs.simplecashtransaction.services.UserService;
 
 @RestController
@@ -23,16 +24,22 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping
-	public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO){
+	public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userDTO){
 		
-		User newUser = userService.createUser(userDTO);
-		return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+		return new ResponseEntity<>(UserMapper.fromEntityToResponseDTO(userService.createUser(userDTO)), HttpStatus.CREATED);
 		
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<User>> getAllUsers(){
-		return new ResponseEntity<> (userService.getAllUsers(), HttpStatus.OK) ;
+	public ResponseEntity<List<UserResponseDTO>> getAllUsers(){
+		
+		List<User> allUsers = userService.getAllUsers();
+		
+		if (allUsers.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<> (allUsers.stream().map(UserMapper::fromEntityToResponseDTO).toList(), HttpStatus.OK) ;
 	}
 
 }

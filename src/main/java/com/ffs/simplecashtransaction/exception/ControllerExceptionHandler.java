@@ -1,6 +1,7 @@
 package com.ffs.simplecashtransaction.exception;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,7 +15,13 @@ public class ControllerExceptionHandler {
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ExceptionDTO> handleDuplicateEntry(DataIntegrityViolationException e) {
-		ExceptionDTO exceptionDTO = new ExceptionDTO("User already registered", "400");
+		ExceptionDTO exceptionDTO = new ExceptionDTO("User already registered", HttpStatus.BAD_REQUEST.toString());
+		return ResponseEntity.badRequest().body(exceptionDTO);
+	}
+	
+	@ExceptionHandler(BusinessRuleViolationException.class)
+	public ResponseEntity<ExceptionDTO> handleBusinessRuleViolation(BusinessRuleViolationException e) {
+		ExceptionDTO exceptionDTO = new ExceptionDTO(e.getMessage(), HttpStatus.BAD_REQUEST.toString());
 		return ResponseEntity.badRequest().body(exceptionDTO);
 	}
 	
@@ -25,7 +32,7 @@ public class ControllerExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleGeneralException(Exception e) {
-		ExceptionDTO exceptionDTO = new ExceptionDTO(e.getMessage(), "500");
+		ExceptionDTO exceptionDTO = new ExceptionDTO(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.toString());
 		return ResponseEntity.internalServerError().body(exceptionDTO);
 	}
 }

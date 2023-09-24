@@ -12,27 +12,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ffs.simplecashtransaction.domain.transaction.Transaction;
-import com.ffs.simplecashtransaction.dtos.TransactionDTO;
+import com.ffs.simplecashtransaction.dtos.TransactionRequestDTO;
+import com.ffs.simplecashtransaction.dtos.TransactionResponseDTO;
 import com.ffs.simplecashtransaction.services.TransactionService;
 
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
-	
+
 	@Autowired
 	private TransactionService transactionService;
-	
+
 	@PostMapping
-	public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDTO transactionDTO) throws Exception{
-		
-		Transaction newTransaction = transactionService.createTransaction(transactionDTO);
-		return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
-		
+	public ResponseEntity<TransactionResponseDTO> createTransaction(@RequestBody TransactionRequestDTO transactionDTO)
+			throws Exception {
+
+		return new ResponseEntity<>(TransactionMapper.fromEntityToResponseDTO(transactionService.createTransaction(transactionDTO)), HttpStatus.CREATED);
+
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<Transaction>> getAllTransactions(){
-		return new ResponseEntity<>(transactionService.getAllTransactions(), HttpStatus.OK) ;
+	public ResponseEntity<List<TransactionResponseDTO>> getAllTransactions(){
+		
+		List<Transaction> allTransactions = transactionService.getAllTransactions();
+		
+		if (allTransactions.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<> (allTransactions.stream().map(TransactionMapper::fromEntityToResponseDTO).toList(), HttpStatus.OK) ;
 	}
 
 }
