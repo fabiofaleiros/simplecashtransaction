@@ -62,5 +62,17 @@ public class UserService {
 	public void saveUser(User user) {
 		userRepository.save(user);
 	}
+	
+	public void deleteUser(Long id) {
+		
+		Optional<User> userDBOpt = userRepository.findById(id);
+		
+		if(userDBOpt.isPresent()) {
+			userRepository.delete(userDBOpt.get());
+		} else {
+			throw new EntityNotFoundException();
+		}
+		
+	}
 
 }
