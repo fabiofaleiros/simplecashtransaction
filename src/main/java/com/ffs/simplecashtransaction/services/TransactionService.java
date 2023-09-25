@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,7 @@ public class TransactionService {
 		transaction.setSender(sender);
 		transaction.setReceiver(receiver);
 		transaction.setTimestampTransaction(LocalDateTime.now());
+		transaction.setTransactionCode(UUID.randomUUID());
 		
 		sender.setBalance(sender.getBalance().subtract(transactionDTO.value()));
 		receiver.setBalance(receiver.getBalance().add(transactionDTO.value()));
@@ -58,8 +60,7 @@ public class TransactionService {
 		userService.saveUser(sender);
 		userService.saveUser(receiver);
 		
-		notificationService.sendNotification(sender, "Transaction sent with sucess");
-		notificationService.sendNotification(receiver, "Transaction received with sucess");
+		notificationService.sendNotificationTransaction(transaction);
 		
 		return transaction;
 		

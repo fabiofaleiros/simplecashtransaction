@@ -2,6 +2,7 @@ package com.ffs.simplecashtransaction.domain.transaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.ffs.simplecashtransaction.domain.user.User;
 
@@ -42,5 +43,7 @@ public class Transaction {
 	private User receiver;
 	
 	private LocalDateTime timestampTransaction;
+	
+	private UUID transactionCode;
 
 }
