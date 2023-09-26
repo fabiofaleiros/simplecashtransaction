@@ -49,7 +49,8 @@ docker compose up
 java -jar simplecashtransaction/target/simplecashtransaction-0.0.1-SNAPSHOT.jar
 ```
 
-Link API [localhost:8080](http://localhost:8080).
+- Link API [localhost:8080](http://localhost:8080).
+- Swagger documentation: [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ## API Endpoints
 
