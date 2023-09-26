@@ -1,11 +1,17 @@
 package com.ffs.simplecashtransaction.domain.user;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.ffs.simplecashtransaction.dtos.UserRequestDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +31,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
 	@Id
@@ -47,6 +54,14 @@ public class User {
 	
 	@Enumerated(EnumType.STRING)
 	private UserType userType;
+	
+	@Column(name = "created_date", nullable = false, updatable = false)
+	@CreatedDate
+	private LocalDateTime createdAt; 
+	
+	@Column(name = "modified_date")
+	@LastModifiedDate
+	private LocalDateTime updatedAt;
 	
 	public User(UserRequestDTO from) {
 		this.firstName = from.firstName();
