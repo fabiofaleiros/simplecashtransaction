@@ -17,7 +17,7 @@ import com.ffs.simplecashtransaction.dtos.TransactionResponseDTO;
 import com.ffs.simplecashtransaction.services.TransactionService;
 
 @RestController
-@RequestMapping("/transactions")
+@RequestMapping("/api/v1/transactions")
 public class TransactionController {
 
 	@Autowired

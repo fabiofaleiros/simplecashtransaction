@@ -16,11 +16,18 @@ public class UserMapper {
 		final String document = StringUtils.hasText(dto.document()) ? dto.document() : user.getDocument();
 	    final String email = StringUtils.hasText(dto.email()) ? dto.email() : user.getEmail();
 	    final UserType userType = !ObjectUtils.isEmpty(dto.userType()) ? dto.userType() : user.getUserType();
-	    return new User(user.getId(), firstName, lastName, document, email, user.getPassword(), user.getBalance(), userType);
+	    return new User(user.getId(), firstName, lastName, document, email, user.getPassword(), user.getBalance(), userType, null, null);
 	  }
 	
 	public static UserResponseDTO fromEntityToResponseDTO(User user) {
-		return new UserResponseDTO(user.getFirstName(), user.getLastName(), user.getDocument(), user.getBalance(), user.getEmail(), user.getUserType());
+		return user != null ? new UserResponseDTO(
+					user.getFirstName(), 
+					user.getLastName(), 
+					user.getDocument(), 
+					user.getBalance(), 
+					user.getEmail(), 
+					user.getUserType(), 
+					user.getUpdatedAt()) : null;
 	}	
 
 }

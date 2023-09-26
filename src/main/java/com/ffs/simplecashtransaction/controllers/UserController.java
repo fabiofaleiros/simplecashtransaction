@@ -20,7 +20,7 @@ import com.ffs.simplecashtransaction.dtos.UserResponseDTO;
 import com.ffs.simplecashtransaction.services.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 	
 	@Autowired

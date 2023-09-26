@@ -21,6 +21,8 @@ Video Source [link](https://youtu.be/QXunBiLq2SM?si=3dpJtAyRMjRlPC-5).
 - Automated tests
 - DTOs
 - Dependency injection
+- Swagger automatic doc withGeração automática do Swagger com OpenAPI 3
+- Entity Auditing to date(create and update)
 
 ## Initial Considerations
 
