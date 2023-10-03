@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ffs.simplecashtransaction.controllers.UserController;
+import com.ffs.simplecashtransaction.domain.user.RoleType;
 import com.ffs.simplecashtransaction.domain.user.UserType;
 import com.ffs.simplecashtransaction.dtos.UserRequestDTO;
 import com.ffs.simplecashtransaction.services.UserService;
@@ -34,7 +35,7 @@ public class UserControllerTests {
 	
 	@Test
 	public void testAddUserShoudReturn201() throws Exception {
-		UserRequestDTO newUser = new UserRequestDTO("First Name", "Last Name", "1234561", new BigDecimal(200), "email", "321654", UserType.PERSONAL);
+		UserRequestDTO newUser = new UserRequestDTO("First Name", "Last Name", "1234561", new BigDecimal(200), "email", "321654", RoleType.USER, UserType.PERSONAL);
 		
 		String requestBody = objectMapper.writeValueAsString(newUser);
 		

@@ -2,6 +2,7 @@ package com.ffs.simplecashtransaction.dtos;
 
 import java.math.BigDecimal;
 
+import com.ffs.simplecashtransaction.domain.user.RoleType;
 import com.ffs.simplecashtransaction.domain.user.UserType;
 
 public record UserRequestDTO(
@@ -10,7 +11,8 @@ public record UserRequestDTO(
 		String document, 
 		BigDecimal balance, 
 		String email, 
-		String password, 
+		String password,
+		RoleType role,
 		UserType userType) {
 
 }
