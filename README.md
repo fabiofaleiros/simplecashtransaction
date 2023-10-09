@@ -59,7 +59,7 @@ java -jar simplecashtransaction/target/simplecashtransaction-0.0.1-SNAPSHOT.jar
 
 Tool [insomnia](https://insomnia.rest/):
 
-- All requests to /api/* require token received throw /auth/login.
+- All requests to /api/* require token received by /auth/login.
 
 - POST localhost:8080/api/v1/users
 ```
