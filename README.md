@@ -23,6 +23,7 @@ Video Source [link](https://youtu.be/QXunBiLq2SM?si=3dpJtAyRMjRlPC-5).
 - Dependency injection
 - Swagger automatic doc withGeração automática do Swagger com OpenAPI 3
 - Entity Auditing to date(create and update)
+- JWT
 
 ## Initial Considerations
 
@@ -58,7 +59,9 @@ java -jar simplecashtransaction/target/simplecashtransaction-0.0.1-SNAPSHOT.jar
 
 Tool [insomnia](https://insomnia.rest/):
 
-- POST localhost:8080/users
+- All requests to /api/* require token receive throw /auth/login.
+
+- POST localhost:8080/api/v1/users
 ```
 Request:
 {
@@ -75,36 +78,56 @@ HTTP/1.1 201 CREATED
 Content-Type: application/json
 
 {
-	"id": 3,
 	"firstName": "Joao",
 	"lastName": "Siqueira",
 	"document": "1234563",
 	"email": "j@ffs.com",
-	"password": "senha",
 	"balance": 200,
-	"userType": "ENTERPRISE"
+	"userType": "ENTERPRISE",
+	"role": null,
+	"updatedAt": "2023-10-09T18:48:05.9371241"
 }
 ```
 
-- GET localhost:8080/users
+- GET localhost:8080/api/v1/users
 ```
 HTTP/1.1 200 OK
 Content-Type: application/json
 
 [
     {
-		"id": 3,
-		"firstName": "Joao",
-		"lastName": "Siqueira",
-		"document": "1234563",
-		"email": "j@ffs.com",
-		"password": "senha",
-		"balance": 200.00,
-		"userType": "ENTERPRISE"
-	}
+        "firstName": "Fran",
+        "lastName": "Faleiros",
+        "document": "1234562",
+        "balance": 200.00,
+        "email": "ff@ffs.com",
+        "role": "USER",
+        "userType": "PERSONAL",
+        "updatedAt": "2023-09-26T12:02:17.720958"
+    },
+    {
+        "firstName": "Empresa",
+        "lastName": "XPTO 2",
+        "document": "1234564",
+        "balance": 200.00,
+        "email": "exe@ffs.com",
+        "role": "USER",
+        "userType": "ENTERPRISE",
+        "updatedAt": "2023-09-26T17:29:30.935671"
+    },
+    {
+        "firstName": "Fabio",
+        "lastName": "Faleiros",
+        "document": "1234561",
+        "balance": 200.00,
+        "email": "admin@ffs.com",
+        "role": "ADMIN",
+        "userType": "PERSONAL",
+        "updatedAt": "2023-10-09T17:34:14.882944"
+    }
 ]
 ```
-- POST localhost:8080/transactions
+- POST localhost:8080/api/v1/transactions
 ```
 Request:
 {
@@ -117,62 +140,58 @@ HTTP/1.1 201 CREATED
 Content-Type: application/json
 
 {
-	"id": 4,
-	"amount": 10,
-	"sender": {
-		"id": 1,
-		"firstName": "Fabio",
-		"lastName": "Siqueira",
-		"document": "1234561",
-		"email": "fs@ffs.com",
-		"password": "senha",
-		"balance": 20.00,
-		"userType": "PERSONAL"
-	},
-	"receiver": {
-		"id": 2,
-		"firstName": "Fran",
-		"lastName": "Siqueira",
-		"document": "1234562",
-		"email": "ff@ffs.com",
-		"password": "senha",
-		"balance": 10.00,
-		"userType": "PERSONAL"
-	},
-	"timestampTransaction": "2023-09-17T01:13:51.3366497"
+    "value": 10,
+    "senderID": 1,
+    "receiverID": 4,
+    "transactionCode": "3b4ab7fe-906d-414e-9ed0-6c946f3ff9e1"
 }
 ```
 
-- GET localhost:8080/transactions
+- GET localhost:8080/api/v1/transactions
 ```
 HTTP/1.1 200 OK
 Content-Type: application/json
 
 [
-	{
-		"id": 1,
-		"amount": 10.00,
-		"sender": {
-			"id": 2,
-			"firstName": "Fran",
-			"lastName": "Siqueira",
-			"document": "1234562",
-			"email": "ff@ffs.com",
-			"password": "senha",
-			"balance": 10.00,
-			"userType": "PERSONAL"
-		},
-		"receiver": {
-			"id": 1,
-			"firstName": "Fabio",
-			"lastName": "Siqueira",
-			"document": "1234561",
-			"email": "fs@ffs.com",
-			"password": "senha",
-			"balance": 20.00,
-			"userType": "PERSONAL"
-		},
-		"timestampTransaction": "2023-09-17T01:12:02.531498"
-	}
+    {
+        "value": 10.00,
+        "senderID": 1,
+        "receiverID": 4,
+        "transactionCode": "3b4ab7fe-906d-414e-9ed0-6c946f3ff9e1"
+    }
 ]
+```
+
+- POST localhost:8080/auth/register
+```
+Request:
+{
+		"login": "admin@ffs.com",
+		"password": "senha",
+		"role": "ADMIN"
+}
+
+HTTP/1.1 201 CREATED
+Content-Type: application/json
+
+{
+	"firstName": "Joao",
+	"lastName": "Siqueira",
+	"document": "1234563",
+	"email": "j@ffs.com",
+	"balance": 200,
+	"userType": "ENTERPRISE",
+	"role": null,
+	"updatedAt": "2023-10-09T18:48:05.9371241"
+}
+```
+
+- GET localhost:8080/auth/login
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluQGZmcy5jb20iLCJleHAiOjE2OTY4ODM5MTh9.vjRywJfMbflrwBNI8_OSqiFrgLKgTH7GM1nB7O160p0"
+}
 ```
