@@ -71,6 +71,12 @@ public class User implements UserDetails {
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
 	
+	public User(String email, String password, RoleType role) {
+		this.email = email;
+		this.password = password;
+		this.role = role;
+	}
+	
 	public User(UserRequestDTO from) {
 		this.firstName = from.firstName();
 		this.lastName = from.lastName();
